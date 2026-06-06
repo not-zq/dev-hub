@@ -13,7 +13,7 @@
 - [Click here](https://git-scm.com/install/windows) and download the installer for the latest Git version for Windows.
 - Open the installer and use the installer suggested options.
     - **Suggestion**: Install on `C:\Programs\Git`.
-- Check the following values are in `Path`:
+- Ensure the following values are in `Path`:
     - `C:\Programs\Git\bin`
     - `C:\Programs\Git\cmd`
 
@@ -34,10 +34,10 @@ git version 2.54.0.windows.1
     - Select **Customize installation**
         - Only *pip* is needed from *Optional Features*
         - **Suggestion**: Install on `C:\Programs\Python\<version>`. For example, `C:\Programs\Python\3.14.5`.
-- Check the following values are in `Path`:
+- Ensure the following values are in `Path`:
     - `C:\Programs\Python\<version>\`
     - `C:\Programs\Python\<version>\Scripts\`
-- For **VS Code** integration, install the `Python` extension.
+- On Windows, in `Settings > Apps > Advanced app settings > App execution aliases` disable `App Installer` for `python.exe` and `python3.exe`.
 
 ### Check installation
 
@@ -45,6 +45,10 @@ In a Terminal, running `pip --version` should return
 ```bash
 pip 26.1.1 from C:\Programs\Python\3.14.5\Lib\site-packages\pip (python 3.14)
 ```
+
+### Optional
+
+- For **VS Code** integration, install the `Python` extension.
 
 ## Visual Studio Code
 
