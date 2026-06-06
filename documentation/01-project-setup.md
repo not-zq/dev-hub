@@ -21,11 +21,14 @@ Then, to push your first commit, run
 
 ```bash
 git add README.md
-git commit -m "Added README.md"
+git add .gitignore
+git commit -m "Added README.md and .gitignore."
 git push -u origin main
 ```
 
 ## Python environment
+
+### Create the base environment
 
 In a terminal, in the project's folder, to create a local environment for the project, run
 
@@ -39,19 +42,23 @@ To activate the environment
 .venv/Scripts/activate
 ```
 
-To install packages you can run `pip install <package>`.
-However, it is better practice to set a `requirements.txt` file with the needed packages. The content of the file should like this
+### Install packages
 
+To install packages you can run `pip install <package>`.
+However, it is better practice to set a `requirements.txt` file with the needed packages to keep track of the installed packages and for other to be able to recreate the same environment. The content for the `requirements.txt` file should look like following
 ```
 pandas
-pyodbc
+pyodbc==5.3.0
 matplotlib
 pyyaml
 ```
+where you can specify the version of the package. 
 
-and you would run 
-
+Having this file set up with the necessary packages, to install them you would instead run
 ```bash
 python -m pip install -r requirements.txt
 ```
-
+and to confirm the installation, you would run
+```bash
+python -m pip list
+```
