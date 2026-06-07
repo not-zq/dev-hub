@@ -35,13 +35,13 @@ You would want to keep the web app in a separate folder in the project's directo
 ### Initialize the project
 
 Being in the web app folder for the project, `C:\Projects\<project>\django-app`, create an environment and install `django`. To verify the installation run
-```Powershell
+```bash
 django-admin --version
 ```
 which should return a version, like `6.0.6`.
 
 To initialize the project run
-```Powershell
+```bash
 django-admin startproject config .
 ```
 which will create the following in your app folder
@@ -56,7 +56,7 @@ django_app/
 ```
 
 Running
-```Powershell
+```bash
 python manage.py runserver
 ```
 will start the Django welcome page in `http://127.0.0.1:8000/`
@@ -64,7 +64,7 @@ will start the Django welcome page in `http://127.0.0.1:8000/`
 ### Create an app
 
 Running
-```Powershell
+```bash
 python manage.py startapp app
 ```
 will create the following folder
