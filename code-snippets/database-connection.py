@@ -33,3 +33,9 @@ class DatabaseConnection:
             with connection.cursor() as cursor:
                 cursor.executemany(query, data)
                 connection.commit()
+
+if __name__== "__main__":
+
+    SQLServer = DatabaseConnection("Driver={ODBC Driver 17 for SQL Server};Server=localhost;Database=Local;Trusted_Connection=yes;")
+
+    print(SQLServer.fetch("SELECT TOP (1) * FROM SpotifyExtendedStreamingHistory"))
