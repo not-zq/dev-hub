@@ -36,7 +36,9 @@ In a terminal, in the project's folder, to create a local environment for the pr
 python -m venv .venv
 ```
 
-To activate the environment
+To link this new environment to the current **VS Code** workspace, we use the shortcut `Ctrl + Shift + P` and find the command `Python: Select Interpreter`. After running this command, we select our local environment interpreter `./.venv/Scripts/python.exe` for the workspace. 
+
+Now, for python files, our local environment is selected as the interpreter, having the necessary packages. To manually activate the environment in a terminal we run
 
 ```bash
 .venv/Scripts/activate
