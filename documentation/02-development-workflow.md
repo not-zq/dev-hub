@@ -39,30 +39,7 @@ git commit -a -m "commit-message>"
 ```
 This saves time having to add files, but this does not include untracked files. 
 
-
-
-When writing commit messages there is a convention called **Angular convention**, which provides a set or rules for creating a standardized commit history. This conventions sets the structure of a commit message as:
-```
-<type>(<optional scope>): <subject>
-<BLANK LINE>
-<optional body>
-```
-which is expanded upon in the [Commit Message Guidelines](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines).
-
-The most relevant message *types* are
-- `docs`: documentation changes only, 
-- `feat`: new features,
-- `fix`: bug fix,
-- `perf`: code change that improves performance,
-- `refactor`: code change that neither fizes a bug nor adds a feature,
-- `style`: changes that do not affect the meaning of the code.
-
-Some relevant guidelines are
-- the **subject** is concise description of the change, where we
-    - use the imperative, present tense: "change" not "changed" nor "changes",
-    - do not capitalize the first letter, and
-    - do not add a dot (.) at the end.
-- the **body** should include the motivation for the change and contrast with previous behavior, and we also use the imperative, present tense.
+&emsp; Refer to [Conventions | Git - Commit messages](./conventions.md#git---commit-message) for guidelines on commit messages.
 
 ### Push
 
