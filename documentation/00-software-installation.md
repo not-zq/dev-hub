@@ -15,7 +15,7 @@
     - `C:\Programs\Git\bin`
     - `C:\Programs\Git\cmd`
 - To confirm the installation, running `git --version` in a terminal should return
-```bash
+```
 git version 2.54.0.windows.1
 ```
 
@@ -32,7 +32,7 @@ git version 2.54.0.windows.1
     - `C:\Programs\Python\<version>\Scripts\`
 - On Windows, in `Settings > Apps > Advanced app settings > App execution aliases` disable `App Installer` for `python.exe` and `python3.exe`.
 - To confirm correct installation, running `pip --version` in a terminal should return something similar to
-```bash
+```
 pip 26.1.1 from C:\Programs\Python\3.14.5\Lib\site-packages\pip (python 3.14)
 ```
 - For **VS Code** integration, install the `Python` extension.
