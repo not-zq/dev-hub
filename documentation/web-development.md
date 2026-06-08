@@ -15,17 +15,23 @@ A web page is usually composed of
 Ideally, your web page project folder will be structured as follows
 ```
 django_app
-|
-|- .venv/
-|- config/ 
-|- app/
-|- static/
-|- templates/
-|   |- home.html
-|- media/
-|- logs/
-|- requirements.txt
-|- manage.py
+├── .venv/
+├── app/
+│   ├── models.py
+│   ├── views.py
+│   └── urls.py
+├── config/ 
+│   ├── settings.py
+│   └── urls.py
+│── static/
+│   ├── css/
+│   │   ├── style.css
+│   └── js/
+│       └── script.js
+├── templates/
+│   └── home.html
+├── manage.py
+└── requirements.txt
 ```
 
 You would want to keep the web app in a separate folder in the project's directory.
@@ -47,12 +53,12 @@ django-admin startproject config .
 which will create the following in your app folder
 ```
 django_app/
-|- manage.py
-|- config
-    |- settings.py
-    |- urls.py
-    |- asgi.py
-    |- wsgi.py
+├── manage.py
+└── config
+    ├── settings.py
+    ├── urls.py
+    ├── asgi.py
+    └── wsgi.py
 ```
 
 Running
@@ -70,15 +76,15 @@ python manage.py startapp app
 will create the following folder
 ```
 app/
-|- migrations/
-|- admin.py
-|- apps.py
-|- models.py
-|- test.py
-|- views.py
+├── migrations/
+├── admin.py
+├── apps.py
+├── models.py
+├── test.py
+└── views.py
 ```
 
-To register the app, in `config.setting.py`
+To register the app, in `config/setting.py`
 ```Python
 INSTALLED_APPS = [
     ...
@@ -88,7 +94,7 @@ INSTALLED_APPS = [
 
 Create a view
 
-`app/view.py`
+`app/views.py`
 ```Python
 from django.http import HttpResponse
 
@@ -120,7 +126,7 @@ urlpatterns = [
 ### Rendering an HTML template
 
 Typically, HTML files are stored as templates. The simplest HTML file would look like this
-`django_app/templates/home.html`
+`templates/home.html`
 ```HTML
 <!DOCTYPE html>
 <html>
@@ -153,4 +159,56 @@ TEMPLATES = [
         ...
     },
 ]
+```
+
+### Adding CSS and JavaScript
+
+A CSS file would look like
+
+`static/css/style.css`
+```CSS
+body {
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: blue;
+}
+```
+
+While a JavaScript file would look like
+
+`static/js/script.js`
+```js
+console.log("JavaScript loaded!");
+
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("Page is ready");
+});
+```
+
+In `config/settings.py`, we make sure static files are enabled and add the directory
+```Python
+STATIC_URL = "static/"
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+```
+
+In the HTML template, load the static tag library and reference the files like
+```HTML
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Hello World</h1>
+    <p>Served by Django.</p>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
 ```
