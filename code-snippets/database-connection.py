@@ -1,5 +1,6 @@
 
 from pyodbc import connect
+from pandas import DataFrame
 
 class DatabaseConnection:
     '''
@@ -9,7 +10,7 @@ class DatabaseConnection:
             - Driver={ODBC Driver 17 for SQL Server};Server=localhost;Database=Local;Trusted_Connection=yes;
             - DSN=localhost;Database=Local;Trusted_Connection=yes;
     Methods:
-        fetch(query: str): Executes a SELECT query and returns the results as a list of tuples.
+        fetch(query: str): Executes a SELECT query and returns the results as a DataFrame.
         execute(query: str, params: tuple | None = None): Executes a non-SELECT query (e.g., INSERT, UPDATE, DELETE) with optional parameters.
         executemany(query: str, data: list): Executes a non-SELECT query with multiple sets of parameters.
     '''
@@ -17,10 +18,10 @@ class DatabaseConnection:
         self.connection_string = connection_string
 
     def fetch(self, query: str):
-        with connect(self.connection_string) as connection:
+        with connect(self.connection_string, autocommit = True) as connection:
             with connection.cursor() as cursor:
                 cursor.execute(query)
-                return cursor.fetchall() # Returns a list of tuples, where each tuple represents a row in the result set
+                return DataFrame.from_records(cursor.fetchall(), columns = [column[0] for column in cursor.description])
     
     def execute(self, query: str, params: tuple | None = None):
         with connect(self.connection_string) as connection:
