@@ -1,6 +1,6 @@
 
-from pyodbc import connect
 from pandas import DataFrame
+from pyodbc import connect, drivers
 
 class DatabaseConnection:
     '''
@@ -26,7 +26,8 @@ class DatabaseConnection:
     def execute(self, query: str, params: tuple | None = None):
         with connect(self.connection_string) as connection:
             with connection.cursor() as cursor:
-                cursor.execute(query, params)
+                if params: cursor.execute(query, params)
+                else:      cursor.execute(query)
                 connection.commit()
 
     def executemany(self, query: str, data: list):
