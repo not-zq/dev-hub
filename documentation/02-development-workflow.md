@@ -41,6 +41,11 @@ This saves time having to add files, but this does not include untracked files.
 
 &emsp; Refer to [Conventions | Git - Commit messages](./conventions.md#git---commit-message) for guidelines on commit messages.
 
+After commiting, if you want to add more staged files to the previous commit you would stage the desired changes, then run
+```Powershell
+git commit --amend --no-edit
+```
+
 ### Push
 
 All commits happen locally and only affect the remote repository after they are pushed. 

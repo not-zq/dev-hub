@@ -8,16 +8,7 @@
 
 ## Git
 
-- [Click here](https://git-scm.com/install/windows) and download the installer for the latest Git version for Windows.
-- Open the installer and use the installer suggested options.
-    - **Suggestion**: Install in `C:\Programs\Git`.
-- Ensure the following values are included in `Path`:
-    - `C:\Programs\Git\bin`
-    - `C:\Programs\Git\cmd`
-- To confirm the installation, running `git --version` in a terminal should return
-```
-git version 2.54.0.windows.1
-```
+Refer to [Git - Installation](./git.md).
 
 ## Python
 
