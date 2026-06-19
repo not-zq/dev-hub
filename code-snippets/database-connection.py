@@ -36,8 +36,20 @@ class DatabaseConnection:
                 cursor.executemany(query, data)
                 connection.commit()
 
+def get_best_driver():
+
+    installed_drivers = drivers()
+
+    drivers_order = ["ODBC Driver 17 for SQL Server", "SQL Server"]
+    for driver in drivers_order: 
+        if driver in installed_drivers: return driver
+
+    return None
+
 if __name__== "__main__":
 
-    SQLServer = DatabaseConnection("Driver={ODBC Driver 17 for SQL Server};Server=localhost;Database=Local;Trusted_Connection=yes;")
+    driver = get_best_driver()
+
+    SQLServer = DatabaseConnection(f"Driver={{{driver}}};Server=localhost;Database=Local;Trusted_Connection=yes;")
 
     print(SQLServer.fetch("SELECT TOP (1) * FROM SpotifyExtendedStreamingHistory"))
