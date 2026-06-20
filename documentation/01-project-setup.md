@@ -64,3 +64,117 @@ and to confirm the installation, you would run
 ```bash
 python -m pip list
 ```
+
+## Setting up for web development with Python
+
+It is suggested that a separate folder is created for the web app, such as `C:\Projects\<project>\django-app`. This folder will end up having a similar structure to the following
+```
+django_app
+├── .venv/
+├── app/
+│   ├── models.py
+│   ├── views.py
+│   └── urls.py
+├── config/ 
+│   ├── settings.py
+│   └── urls.py
+│── static/
+│   ├── css/
+│   │   ├── style.css
+│   └── js/
+│       └── script.js
+├── templates/
+│   └── home.html
+├── manage.py
+└── requirements.txt
+```
+
+The project will need an environment with the `django` package, which to verify the installation of, you can run the following in a terminal
+```bash
+django-admin --version
+```
+which should return a version, like `6.0.6`.
+
+### Initializing the project
+
+Being in the target folder for the web app, while having the environment activated, we can run
+```bash
+django-admin startproject config .
+```
+which will create a `manage.py` file and a `config` folder with other necessary files. After this, we can already run the server using 
+```bash
+python manage.py runserver
+```
+which will start the Django welcome page in `http://127.0.0.1:8000/`, but we can skip this part to continue setting up our project.
+
+Now, we can create an app using this command 
+```bash
+python manage.py startapp app
+```
+which will create an `app` folder with files we will use to set up our page. 
+
+First, we need to register the app by adding its name to the `INSTALLED_APPS` list in `config/settings.py`
+```Python
+INSTALLED_APPS = [..., "app"]
+```
+
+Then, we create a view for the app in `app/views.py`, for example
+```Python
+from django.http import HttpResponse
+def home(request):
+    return HttpResponse("Hello World")
+```
+
+We set the URL to the application's view by adding it to `app/urls.py`, like so
+```Python
+from django.urls import path
+from .views import home
+urlpatterns = [path("", home)]
+```
+and include these URLs to `config/urls.py`
+```Python
+from django.urls import include, path
+urlpatterns = [path("", include("app.urls"))]
+```
+
+### Including HTML templates and static files like CSS and JS
+
+Typically, HTML files are stored as templates. For this example, we'll use the file `templates/home.html`. For this file to be considered, first we add it to our `TEMPLATES` list in `config/settings.py`
+```Python
+TEMPLATES = [
+    {
+        ...
+        "DIRS": [BASE_DIR / "templates"],
+        "APP_DIRS": True,
+    }
+]
+```
+and then, we can render by modifying the app's view (`app/views.py`) like follows
+```Python
+from django.shortcuts import render
+def home(request):
+    return render(request, "home.html")
+```
+
+Now, CSS and JS files are considered static files, which we'll consider them to be in a `css` and `js` folders inside a `static` folder. For these folders to be considered we have to modify the following in `config/settings.py`
+```Python
+STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]
+```
+
+Then to call these files in the HTML file, we would have like to the following
+```HTML
+{% load static %}
+
+<!DOCTYPE html >
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    ...
+</head>
+<body>
+    ...
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
+```
