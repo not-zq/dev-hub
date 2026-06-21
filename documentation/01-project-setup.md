@@ -80,9 +80,8 @@ django_app
 │   └── urls.py
 │── static/
 │   ├── css/
-│   │   ├── style.css
+│   ├── images/
 │   └── js/
-│       └── script.js
 ├── templates/
 │   └── home.html
 ├── manage.py
@@ -178,3 +177,43 @@ Then to call these files in the HTML file, we would have like to the following
 </body>
 </html>
 ```
+
+### Connect to SQL database
+
+For MS SQL databases it is necessary to install the `mssql-django` package.
+
+First we include the database in the `config/settings.py` file
+```Python
+DATABASES = {
+    "default" : {
+        "ENGINE": "mssql",
+        "NAME": "Local",
+        "HOST": "localhost",
+        "OPTIONS": {
+            "driver": "ODBC Driver 17 for SQL Server",
+            "trusted_connection": "yes",
+        }
+    }
+}
+```
+
+Then we can let Django generate a model by running 
+```bash
+python manage.py inspectdb <table>
+```
+in the terminal, which will print the model we can then paste in `app/models.py`. The model will have this structure 
+```Python
+from django.db import models
+class <table>(models.Model):
+    # attributes definition ...
+    class Meta:
+            managed = False
+            db_table = "<table>"
+```
+where the table from the database is a class we can call, and the attributes are defined as variables.
+
+In the view we import the class from the model 
+```Python
+.models import <table>
+```
+and fetch data using Django's ORM (Object-Relational Mapper).
