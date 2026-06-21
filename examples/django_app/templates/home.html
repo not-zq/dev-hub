@@ -16,71 +16,82 @@
     
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
+    <!-- Scrits and modules -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- import CDN chart.js -->
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.8.1/dist/nouislider.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/nouislider@15.8.1/dist/nouislider.min.js"></script>
+    
+    <script src="{% static 'js/utils.js' %}"></script>
+
 </head>
 <body>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- import CDN chart.js -->
-    <script src="{% static 'js/utils.js' %}"></script>
 
     <div class="page">
 
         <div class="topBar">
 
-            <div class="topBar-left">
-                <h3>Spotify Extended Streaming History</h3>
-            </div>
+            <div class="topBar-left"><h3>Spotify Extended Streaming History</h3></div>
 
-            <div class="topBar-right">
-        
-                <form method="get">
-                    <select id="artistDropdown" name="artistDropdown">
-                        {% for topArtist in topArtists %}
-                            <option value="{{ topArtist.master_metadata_album_artist_name }}"
-                                {% if topArtist.master_metadata_album_artist_name|stringformat:"s" == selectedArtist %}
-                                    selected
-                                {% endif %}
-                            >
-                                {{ topArtist.master_metadata_album_artist_name }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </form>
-        
-            </div>
         </div>
-
+        
         <div class="content">
+            
+            <h3>Monthly Listening Time</h3><br>
 
             <div class="container-MonthlyListeningTime">
-                {{ monthlyListeningTime|json_script:"dataMonthlyListeningTime" }}
                 <canvas id="canvasMonthlyListeningTime"></canvas>
-                <script src="{% static 'js/lineChartMonthlyListeningTime.js' %}"></script>
             </div>
+            
+            <div class="dateSlider"><div id="dateSlider"></div></div>
             
             <div class="container-main">
                 <div class="box-TopArtists">
-        
-                    {{ topArtists|json_script:"dataTopArtists" }}
+                    
+                    <h3>Top Artists</h3>
+                    
                     <canvas id="canvasTopArtists"></canvas>
-                    <script src="{% static 'js/barChartTopArtists.js' %}"></script>
-        
+                    
                 </div>
                 <div class="box-ArtistTopSongs">
-        
-                    {{ topSongs|json_script:"dataTopSongs" }}
+                    
+                    <div class="box-ArtistTopSongs-header">
+
+                        <h3>Top Songs from</h3>
+
+                        <div class="artistDropdown">
+                            <form method="get">
+                                <select id="artistDropdown" name="artistDropdown">
+                                    {% for topArtist in topArtists %}
+                                    <option value="{{ topArtist.master_metadata_album_artist_name }}"
+                                        {% if topArtist.master_metadata_album_artist_name|stringformat:"s" == selectedArtist %}
+                                        selected
+                                        {% endif %}
+                                        >
+                                        {{ topArtist.master_metadata_album_artist_name }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </div>
+
+                    </div>
+
                     <canvas id="canvasTopSongs"></canvas>
-                    <script src="{% static 'js/barChartTopSongs.js' %}"></script>
                     
                 </div>
             </div>
             
         </div>
-
     </div>
 
+{{ topArtists|json_script:"dataTopArtists" }}
+{{ topSongs|json_script:"dataTopSongs" }}
+{{ monthlyListeningTime|json_script:"dataMonthlyListeningTime" }}
 
-
-
+<script src="{% static 'js/lineChartMonthlyListeningTime.js' %}"></script>
+<script src="{% static 'js/barChartTopArtists.js' %}"></script>
+<script src="{% static 'js/barChartTopSongs.js' %}"></script>
 
 </body>
 </html>

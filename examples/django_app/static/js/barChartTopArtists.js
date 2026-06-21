@@ -19,13 +19,13 @@ function renderTopArtists() {
             datasets: [{
                 data: values,
                 backgroundColor: values.map(v => interpolateColor(v, max)),
-                hoverBackgroundColor: "#a3d482",s
+                hoverBackgroundColor: "#a3d482",
             }]
         },
         options: {
             indexAxis: "y",
             plugins: {
-                title:   { display: true, text: "Top Artists"} ,
+                // title:   { display: true, text: "Top Artists"} ,
                 legend:  { display: false },
                 tooltip: { enabled: false }
             },

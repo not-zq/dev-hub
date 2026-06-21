@@ -28,18 +28,18 @@ function renderTopSongs() {
         options: {
             indexAxis: "y",
             plugins: {
-                title:   { display: true, text: "Top Songs"} ,
+                // title:   { display: true, text: "Top Songs"} ,
                 legend:  { display: false } ,
                 tooltip: { enabled: false }
             },
             scales: {
-                x: { grid: { display: false }, ticks: { display: false } },
-                y: { grid: { display: false } }
+                x: { grid: { display: false }, ticks: { display: false }, reverse: true },
+                y: { position: "right", grid: { display: false } }
             },
             responsive: true,
             maintainAspectRatio: false,
         },
-        plugins: [valueLabelPlugin]
+        plugins: [valueLabelReversePlugin]
     });
 }
 

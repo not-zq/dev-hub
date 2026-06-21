@@ -35,7 +35,9 @@ const valueLabelPlugin = {
                 const value = dataset.data[index];
 
                 ctx.fillText(
-                    value, bar.x + 6, bar.y + 4
+                    value, 
+                    bar.x + 6, 
+                    bar.y + 4
                 );
             });
         });
@@ -43,6 +45,32 @@ const valueLabelPlugin = {
     }
 };
 
-// 
+const valueLabelReversePlugin = {
+    id: "valueLabelPlugin",
+    afterDatasetDraw(chart) {
+        const { ctx } = chart;
+
+        ctx.save();
+        ctx.font = "12px Google Sans";
+        ctx.fillStyle = "#e8eaed";
+
+        chart.data.datasets.forEach((dataset, i) => {
+            const meta = chart.getDatasetMeta(i);
+
+            meta.data.forEach((bar, index) => {
+                const value = dataset.data[index];
+
+                ctx.textAlign = "right";
+                ctx.fillText(
+                    value, 
+                    bar.x - 6, 
+                    bar.y + 4
+                );
+            });
+        });
+        ctx.restore();
+    }
+};
+
 
 

@@ -20,7 +20,7 @@ body {
     background-color: #1b1c1d;
 }
 
-.topBar-right select {
+.box-ArtistTopSongs select {
     width: 160px;
     display: block;
     margin: 0 auto;
@@ -41,8 +41,44 @@ body {
     -moz-appearance: none;
 }
 
+
+#dateSlider {
+    width: 60%;
+    margin: 20px auto;
+}
+#dateSlider.noUi-target {
+    background: #4a4a4a;
+    border: none;
+    box-shadow: none;
+    height: 6px;
+    border-radius: 999px;
+}
+#dateSlider .noUi-connect {
+    background: #9ee68d;
+    border-radius: 999px;
+}
+#dateSlider .noUi-handle {
+    width:  17px;
+    height: 17px;
+    border-radius: 50%;
+    background: #eaeaea;
+    border: 2px solid #2a2a2a;
+    box-shadow: none;
+    right: -7px;
+    top: -6px;
+} 
+#dateSlider .noUi-handle::before,
+#dateSlider .noUi-handle::after {
+  display: none !important;
+}
+#dateSlider .noUi-base {
+    height: 6px;
+}
+
+
 .content {
     padding: 40px;
+    padding-top: 10px;
 }
 
 .container-main {
@@ -53,18 +89,27 @@ body {
 
 .box-TopArtists {
     width: 50%;
-    height: 300px;
+    height: 400px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
 }
 
+.box-TopArtists h3 { text-align: center;}
+
 .box-ArtistTopSongs {
     width: 50%;
-    height: 600px;
+    height: 750px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+}
+
+.box-ArtistTopSongs-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    align-self: center;
 }
 
 .container-MonthlyListeningTime {
