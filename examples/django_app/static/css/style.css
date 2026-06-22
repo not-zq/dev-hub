@@ -1,5 +1,8 @@
 
+html { height: 100%; }
+
 body {
+    height: 100%;
     margin: 0; 
     background-color: #2a2a2a;
     font-family: "Google Sans", sans-serif;
@@ -9,6 +12,9 @@ body {
 
 .page {
     padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .topbar {
@@ -24,39 +30,28 @@ body {
 
 /* ---- sidebar ---- */
 
-#sidebarToggle {
-    background: none;
-    border: none;
-    color: #e8eaed;
-    font-size: 28px;
-    cursor: pointer;
-}
-
 .sidebar {
     position: fixed;
-    top: 0;
+    top:  0;
     left: 0;
     height: 100%;
     width: 240px;
 
     background: #1f1f1f;
-    color: #e8eaed;
+    color: inherit;
     padding: 20px;
 
     transform: translateX(-100%);
     transition: transform 0.2s ease;
     z-index: 1100;
 }
+.sidebar.open { transform: translateX(0); }
 
-.sidebar.open {
-    transform: translateX(0);
-}
-
-.overlay {
+.sidebar-overlay {
     position: fixed;
-    top: 0;
+    top:  0;
     left: 0;
-    width: 100%;
+    width:  100%;
     height: 100%;
 
     background: rgba(0,0,0,0.4);
@@ -67,7 +62,7 @@ body {
     z-index: 1000;
 }
 
-.overlay.active {
+.sidebar-overlay.active {
     opacity: 1;
     pointer-events: auto;
 }
@@ -75,14 +70,17 @@ body {
 /* ---------- */
 
 .content {
+    flex: 1;
+    width: 100%;
     padding: 40px;
     padding-top: 20px;
     max-width: 900px;
     margin: 0 auto;
 }
 
-canvas {
-    flex: 1;
+.footer {
+    padding-bottom: 40px;
+    margin-top: auto;
 }
 
 /* dropdown */
@@ -90,6 +88,11 @@ canvas {
 .dropdown {
     position: relative;
     width: 160px;
+
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    text-align: left;
 }
 
 .dropdown-btn {
@@ -100,10 +103,8 @@ canvas {
     padding: 8px 10px;
     cursor: pointer;
 
-    font-family: "Google Sans", sans-serif;
-    font-size: 14px;
-    color: #e8eaed;
-    text-align: left;
+    text-align: inherit;
+    font-weight: bold;
 }
 
 .dropdown-menu {
@@ -131,10 +132,7 @@ canvas {
     padding: 8px 10px;
     cursor: pointer;
 }
-
-.dropdown-item:hover {
-    background: #3a3a3a;
-}
+.dropdown-item:hover { background: #3a3a3a; }
 
 /* modal overlay */
 
@@ -156,11 +154,13 @@ canvas {
     transition: opacity 0.15s ease;
 
     backdrop-filter: blur(3px);
+
+    z-index: 1000;
 }
 
 .modal {
     background: #2e2e2e;
-    color: #e8eaed;
+    color: inherit;
 
     padding: 20px;
     padding-left: 30px;
@@ -169,22 +169,20 @@ canvas {
 
     transform: scale(0.95);
     transition: transform 0.15s ease;
+
+    z-index: 1100;
 }
 
 .modal-overlay.active {
     opacity: 1;
     pointer-events: auto;
 }
-
-.modal-overlay.active .modal {
-    transform: scale(1);
-}
+.modal-overlay.active .modal { transform: scale(1); }
 
 /* button */
 
 button {
     display: block;
-
     margin: 0;
 
     border: 0;
@@ -192,14 +190,13 @@ button {
     padding: 8px 10px;
 
     background: #3a3a3a;
-    font-family: "Google Sans", sans-serif;
-    font-size: 14px;
-    color: #e8eaed;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
     text-align: center;
 
     cursor: pointer;
 }
-
 button:hover { background: #494949; }
 
 #openModalButton {
@@ -207,9 +204,17 @@ button:hover { background: #494949; }
     margin: 0 auto;
 }
 
+#sidebar-toggle {
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 28px;
+    cursor: pointer;
+}
+
 /* ---- containers & boxes ---- */
 
-.container-MonthlyListeningTime {
+.container-LineChart {
     height: 200px;
     display: flex;
     flex-direction: column;
@@ -219,18 +224,19 @@ button:hover { background: #494949; }
 .container-columns {
     display: flex;
     gap: 20px;
-    padding-top: 20px;
+    padding-top: 40px;
 }
 
 .box-column {
-    width: 50%;
+    width: 46%;
     height: 600px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    text-align: center;
 }
 
-.box-TopSongs-header {
+.box-row {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -238,16 +244,6 @@ button:hover { background: #494949; }
     gap: 10px;
 }
 
-.canvasTopArtists{
-    height: 400px;
-}
-
-.canvasTopSongs{
-    height: 600px;
-}
-
-/* other */
-
-.center-h3 {
-    text-align: center;
-}
+canvas { flex: 1; }
+.canvasTopArtists{ height: 400px; }
+.canvasTopSongs{   height: 600px; }

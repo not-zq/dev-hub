@@ -29,31 +29,38 @@
     <div class="page">
 
         <div class="topbar">
-            <button id="sidebarToggle">=</button>
+            <button id="sidebar-toggle">=</button>
             <h3>Spotify Extended Streaming History</h3>
         </div>
         
         <div class="sidebar" id="sidebar"></div>
-        <div class="overlay" id="overlay"></div>
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
         
+        <div class="modal-overlay" id="modal">
+            <div class="modal">
+                <h3>Title</h3>
+                <p>content</p>
+            </div>
+        </div>
+
         <div class="content">
             
             <h3>Monthly Listening Time</h3> <br>
 
-            <div class="container-MonthlyListeningTime"><canvas id="canvasMonthlyListeningTime"></canvas></div>
+            <div class="container-LineChart"><canvas id="canvasMonthlyListeningTime"></canvas></div>
             
             <!-- <div class="dateSlider" id="dateSlider"></div> -->
             
             <div class="container-columns">
 
                 <div class="box-column">
-                    <h3 class="center-h3">Top Artists</h3>
+                    <h3>Top Artists</h3>
                     <div class="canvasTopArtists"><canvas id="canvasTopArtists"></canvas></div>
                 </div>
 
                 <div class="box-column">
                     
-                    <div class="box-TopSongs-header">
+                    <div class="box-row">
 
                         <h3>Top Songs from</h3>
 
@@ -77,18 +84,12 @@
                 </div>
             </div>
 
-        <br>
-
-        <button id="openModalButton">Open</button>
-
-        <div class="modal-overlay" id="modal">
-            <div class="modal">
-                <h3>Title</h3>
-                <p>content</p>
-            </div>
         </div>
 
+        <div class="footer">
+            <button id="openModalButton">Open</button>
         </div>
+
     </div>
 
 <!-- JS -->
@@ -158,8 +159,8 @@
     /* sidebar */ 
 
     const sidebar = document.getElementById("sidebar");
-    const toggle  = document.getElementById("sidebarToggle");
-    const overlay = document.getElementById("overlay");
+    const toggle  = document.getElementById("sidebar-toggle");
+    const overlay = document.getElementById("sidebar-overlay");
 
     toggle.addEventListener("click", () => {
         sidebar.classList.toggle("open");
