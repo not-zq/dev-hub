@@ -30,13 +30,13 @@ function renderTopArtists() {
                 tooltip: { enabled: false }
             },
             scales: {
-                x: { grid: { display: false }, ticks: { display: false } },
-                y: { grid: { display: false } }
+                x: { grid: { display: false }, ticks: { display: false }, reverse: true },
+                y: { position: "right", grid: { display: false } }
             },
             responsive: true,
             maintainAspectRatio: false
         },
-        plugins: [valueLabelPlugin]
+        plugins: [valueLabelReversePlugin]
     });
 
 }

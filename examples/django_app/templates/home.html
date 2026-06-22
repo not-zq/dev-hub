@@ -4,86 +4,94 @@
 <html>
 <head>
 
-    <!-- import Google Sans font -->
+    <link rel="icon" type="'image/svg+xml" href="{% static 'images/favicon.svg' %}"> <!-- favicon -->
+    <title>Home</title>
+
+    <!-- Google Sans font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     
-    <!-- favicon -->
-    <link rel="icon" type="'image/svg+xml" href="{% static 'images/favicon.svg' %}">
-
-    <title>Home</title>
-    
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-    <!-- Scrits and modules -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- import CDN chart.js -->
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- chart.js -->
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.8.1/dist/nouislider.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/nouislider@15.8.1/dist/nouislider.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nouislider@15.8.1/dist/nouislider.min.js"></script> <!-- nouislider.js -->
     
-    <script src="{% static 'js/utils.js' %}"></script>
+    <script src="{% static 'js/utils.js' %}"></script> <!-- utils.js -->
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
 </head>
 <body>
 
     <div class="page">
 
-        <div class="topBar">
-
-            <div class="topBar-left"><h3>Spotify Extended Streaming History</h3></div>
-
+        <div class="topbar">
+            <button id="sidebarToggle">=</button>
+            <h3>Spotify Extended Streaming History</h3>
         </div>
+        
+        <div class="sidebar" id="sidebar"></div>
+        <div class="overlay" id="overlay"></div>
         
         <div class="content">
             
-            <h3>Monthly Listening Time</h3><br>
+            <h3>Monthly Listening Time</h3> <br>
 
-            <div class="container-MonthlyListeningTime">
-                <canvas id="canvasMonthlyListeningTime"></canvas>
-            </div>
+            <div class="container-MonthlyListeningTime"><canvas id="canvasMonthlyListeningTime"></canvas></div>
             
-            <div class="dateSlider"><div id="dateSlider"></div></div>
+            <!-- <div class="dateSlider" id="dateSlider"></div> -->
             
-            <div class="container-main">
-                <div class="box-TopArtists">
-                    
-                    <h3>Top Artists</h3>
-                    
-                    <canvas id="canvasTopArtists"></canvas>
-                    
+            <div class="container-columns">
+
+                <div class="box-column">
+                    <h3 class="center-h3">Top Artists</h3>
+                    <div class="canvasTopArtists"><canvas id="canvasTopArtists"></canvas></div>
                 </div>
-                <div class="box-ArtistTopSongs">
+
+                <div class="box-column">
                     
-                    <div class="box-ArtistTopSongs-header">
+                    <div class="box-TopSongs-header">
 
                         <h3>Top Songs from</h3>
 
-                        <div class="artistDropdown">
-                            <form method="get">
-                                <select id="artistDropdown" name="artistDropdown">
-                                    {% for topArtist in topArtists %}
-                                    <option value="{{ topArtist.master_metadata_album_artist_name }}"
-                                        {% if topArtist.master_metadata_album_artist_name|stringformat:"s" == selectedArtist %}
-                                        selected
-                                        {% endif %}
-                                        >
+                        <div class="dropdown" id="dropdown">
+                            <button class="dropdown-btn">{{ selectedArtist }}</button>
+
+                            <div class="dropdown-menu">
+                                {% for topArtist in topArtists %}
+                                    <div class="dropdown-item"
+                                        data-value="{{ topArtist.master_metadata_album_artist_name }}">
                                         {{ topArtist.master_metadata_album_artist_name }}
-                                    </option>
-                                    {% endfor %}
-                                </select>
-                            </form>
+                                    </div>
+                                {% endfor %}
+                            </div>
                         </div>
 
                     </div>
 
-                    <canvas id="canvasTopSongs"></canvas>
+                    <div class="canvasTopSongs"><canvas id="canvasTopSongs"></canvas></div>
                     
                 </div>
             </div>
-            
+
+        <br>
+
+        <button id="openModalButton">Open</button>
+
+        <div class="modal-overlay" id="modal">
+            <div class="modal">
+                <h3>Title</h3>
+                <p>content</p>
+            </div>
+        </div>
+
         </div>
     </div>
+
+<!-- JS -->
 
 {{ topArtists|json_script:"dataTopArtists" }}
 {{ topSongs|json_script:"dataTopSongs" }}
@@ -92,6 +100,78 @@
 <script src="{% static 'js/lineChartMonthlyListeningTime.js' %}"></script>
 <script src="{% static 'js/barChartTopArtists.js' %}"></script>
 <script src="{% static 'js/barChartTopSongs.js' %}"></script>
+
+<script>
+
+    /* dropdown */ 
+
+    const dropdown = document.querySelector(".dropdown");
+    const dropdownButton = dropdown.querySelector(".dropdown-btn");
+    const items = dropdown.querySelectorAll(".dropdown-item");
+
+    dropdownButton.addEventListener("click", (e) => {
+        e.stopPropagation();
+        dropdown.classList.toggle("open");
+    });
+
+    items.forEach(item => {
+        item.addEventListener("click", async () => {
+            dropdownButton.textContent = item.textContent;
+            dropdown.classList.remove("open");
+
+            const artist = item.dataset.value;
+
+            const res  = await fetch(`/getTopSongs/?artist=${artist}`);
+            const data = await res.json();
+        
+            updateTopSongsChart(data);
+        });
+    });
+
+    document.addEventListener("click", (e) => {
+        if (!dropdown.contains(e.target)) {
+            dropdown.classList.remove("open");
+        }
+    });
+
+</script>
+
+<script>
+
+    /* modal */ 
+
+    const modal = document.getElementById("modal");
+    const openModalButton = document.getElementById("openModalButton");
+
+    openModalButton.addEventListener("click", () => {
+        modal.classList.add("active");
+    });
+
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) { modal.classList.remove("active"); }
+    });
+
+</script>
+
+<script>
+
+    /* sidebar */ 
+
+    const sidebar = document.getElementById("sidebar");
+    const toggle  = document.getElementById("sidebarToggle");
+    const overlay = document.getElementById("overlay");
+
+    toggle.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        overlay.classList.toggle("active");
+    });
+
+    overlay.addEventListener("click", () => {
+        sidebar.classList.remove("open");
+        overlay.classList.remove("active");
+    });
+
+</script>
 
 </body>
 </html>

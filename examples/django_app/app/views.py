@@ -45,7 +45,7 @@ from django.http import JsonResponse
 
 def get_top_songs(request):
 
-    selected_artist = request.GET.get("artistDropdown")
+    selected_artist = request.GET.get("artist")
 
     top_songs = (
         SpotifyExtendedStreamingHistory.objects

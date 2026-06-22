@@ -33,13 +33,13 @@ function renderTopSongs() {
                 tooltip: { enabled: false }
             },
             scales: {
-                x: { grid: { display: false }, ticks: { display: false }, reverse: true },
-                y: { position: "right", grid: { display: false } }
+                x: { grid: { display: false }, ticks: { display: false } },
+                y: { grid: { display: false } }
             },
             responsive: true,
             maintainAspectRatio: false,
         },
-        plugins: [valueLabelReversePlugin]
+        plugins: [valueLabelPlugin]
     });
 }
 
@@ -59,12 +59,3 @@ function updateTopSongsChart(data) {
 
     chartTopSongs.update();
 }
-
-document.getElementById("artistDropdown").addEventListener("change", async (e) => {
-    const artist = e.target.value;
-
-    const res  = await fetch(`/getTopSongs/?artistDropdown=${artist}`);
-    const data = await res.json();
-
-    updateTopSongsChart(data);
-});
