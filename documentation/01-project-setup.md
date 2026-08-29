@@ -1,15 +1,24 @@
 
 # Setting up a new project
 
+- [Github repository](#github-repository)
+- [Python environment](#python-environment)
+    - [Create the base environment](#create-the-base-environment)
+    - [Install packages](#install-packages)
+- [Setting up for web development with Python](#setting-up-for-web-development-with-python)
+    - [Initializing the project](#initializing-the-project)
+    - [Including HTML templates and static files](#including-html-templates-and-static-files-like-css-and-js)
+    - [Connect to SQL database](#connect-to-sql-database)
+
 ## GitHub repository
 
 In [GitHub](https://github.com), create a repository for the project. 
-This will create a web URL for the project, similar to `https://github.com/<user>/<project-name>.git`.
+This will create a web URL for the project, `https://github.com/<user>/<project-name>.git`.
 
 Locally, create a folder for the project and create `README.md` and `.gitignore` files. 
 It is suggested to have projects in a common memorable place like `C:\Projects\<project-name>`.
 
-To set the local repository and its connection to the remote repository, in a terminal, run
+To initialize the repository locally and add the connection to the remote repository, in a terminal, run
 
 ```bash
 git init
@@ -17,12 +26,12 @@ git branch -M main
 git remote add origin https://github.com/<user>/<project-name>.git
 ```
 
-Then, to push your first commit, run
+Then, generally, you stage changes, commit and push them as
 
 ```bash
 git add README.md
 git add .gitignore
-git commit -m "Added README.md and .gitignore."
+git commit -m "add README.md and .gitignore"
 git push -u origin main
 ```
 
@@ -60,7 +69,8 @@ Having this file set up with the necessary packages, to install them you would i
 ```bash
 python -m pip install -r requirements.txt
 ```
-and to confirm the installation, you would run
+
+Finally, to confirm the installation, you can print a list of the installed packages in the active environment with
 ```bash
 python -m pip list
 ```

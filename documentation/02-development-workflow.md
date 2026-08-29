@@ -3,7 +3,9 @@
 
 ## Git
 
-Whenever the files from our project change, their changes will be tracked by git. This changes can be files being modified, created, or removed. Which all happen locally, but for them to be applied to the remote version of our project we have to stage, commit and push them. We can see the current status of our changes with
+Changes made to files in the project, can be tracked using git. This changes can be files being modified, created, removed or renamed. This happens locally
+
+Which all happen locally, but for them to be applied to the remote version of our project we have to stage, commit and push them. We can see the current status of our changes with
 ```bash
 git status
 ```
@@ -35,7 +37,7 @@ git commit -m "<commit-title>" -m "<commit-message>"
 
 A shortcut to automatically stage files that have been modified or deleted is `-all` / `-a`
 ```bash
-git commit -a -m "commit-message>"
+git commit -a -m "<commit-message>"
 ```
 This saves time having to add files, but this does not include untracked files. 
 
@@ -61,17 +63,4 @@ git push -u origin main
 so that we can push `main` to `origin` only using
 ```bash
 git push
-```
-
----
-
-<br>
-
-Some other commands that should be expanded on
-```bash
-git checkout -b <new-branch>
-git checkout main
-git merge
-git reset --soft / --mixed / --hard
-git pull
 ```
