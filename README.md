@@ -1,6 +1,10 @@
 # dev-hub
 
-A repository for everything development-related.
+A repository for development related content.
+
+### Reference
+
+- [Home server](./documentation/home-server.md)
 
 ### Documentation
 
