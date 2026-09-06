@@ -5,6 +5,7 @@
 - [Python environment](#python-environment)
     - [Create the base environment](#create-the-base-environment)
     - [Install packages](#install-packages)
+    - [Load environment variables](#load-environment-variables)
 - [Setting up for web development with Python](#setting-up-for-web-development-with-python)
     - [Initializing the project](#initializing-the-project)
     - [Including HTML templates and static files](#including-html-templates-and-static-files-like-css-and-js)
@@ -74,6 +75,23 @@ Finally, to confirm the installation, you can print a list of the installed pack
 ```bash
 python -m pip list
 ```
+
+### Load environment variables
+
+Whenever you need environment variables for you code, let it be for credentials or for a configuration based on where your code runs, you create a `.env` file which, for your repository, should be added to the `.gitignore` as it might have sensible information or it is not necessarily reusable, and instead a `.env.sample` should be included with default values or no values depending on the field, like
+```ini
+# .env.sample
+
+DB_SERVER="homeserver"
+DB_DATABASE="local"
+DB_UID=""
+DB_PWD=""
+```
+The convention is to use all uppercase for the variables names.
+
+The variables from this `.env` file can be loaded using the `load_dotenv()` function from the `dotenv` library which can be installed through `pip` from `python-dotenv`.
+
+Then, to access the environment variables you can use the `os.getenv(<environment-variable>)` function.
 
 ## Setting up for web development with Python
 
