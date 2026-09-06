@@ -1,55 +1,51 @@
 
+from pyodbc import connect
 from pandas import DataFrame
-from pyodbc import connect, drivers
 
 class DatabaseConnection:
     '''
-    A simple database connection class that provides methods for fetching data and executing queries.
+    A simple pyodbc wrapper to connect to a single database, providing methods to fetch data and execute queries.
     Attributes:
         connection_string (str): The connection string used to connect to the database. This can be of the folowing formats:
-            - Driver={ODBC Driver 17 for SQL Server};Server=localhost;Database=Local;Trusted_Connection=yes;
-            - DSN=localhost;Database=Local;Trusted_Connection=yes;
+            - Driver={driver};Server={server};Database={database};Trusted_Connection=yes;
+            - Driver={driver};Server={server};Database={database};UID={user};PWD={pwd};
+            - Driver={driver};Host={host};HTTPPath={http_path};UID=token;PWD={token};
+            - DSN={dsn};Database={database};Trusted_Connection=yes;
+
     Methods:
-        fetch(query: str): Executes a SELECT query and returns the results as a DataFrame.
+        query(query: str, params: tuple | None = None): Executes a SELECT query with optional parameters and returns the results as a DataFrame.
         execute(query: str, params: tuple | None = None): Executes a non-SELECT query (e.g., INSERT, UPDATE, DELETE) with optional parameters.
-        executemany(query: str, data: list): Executes a non-SELECT query with multiple sets of parameters.
+        executemany(query: str, data: list[tuple]): Executes a non-SELECT query with multiple sets of parameters.
     '''
     def __init__(self, connection_string: str):
         self.connection_string = connection_string
 
-    def fetch(self, query: str):
-        with connect(self.connection_string, autocommit = True) as connection:
+    def query(self, query: str, params: tuple | None = None) -> DataFrame:
+        with connect(self.connection_string) as connection:
             with connection.cursor() as cursor:
-                cursor.execute(query)
+                cursor.execute(query, params or ())
                 return DataFrame.from_records(cursor.fetchall(), columns = [column[0] for column in cursor.description])
     
     def execute(self, query: str, params: tuple | None = None):
         with connect(self.connection_string) as connection:
             with connection.cursor() as cursor:
-                if params: cursor.execute(query, params)
-                else:      cursor.execute(query)
-                connection.commit()
+                cursor.execute(query, params or ())
+            connection.commit()
 
-    def executemany(self, query: str, data: list):
+    def executemany(self, query: str, data: list[tuple]):
         with connect(self.connection_string) as connection:
             with connection.cursor() as cursor:
                 cursor.executemany(query, data)
                 connection.commit()
-
-def get_best_driver():
-
-    installed_drivers = drivers()
-
-    drivers_order = ["ODBC Driver 17 for SQL Server", "SQL Server"]
-    for driver in drivers_order: 
-        if driver in installed_drivers: return driver
-
-    return None
+ 
 
 if __name__== "__main__":
 
-    driver = get_best_driver()
+    LOCAL_DB = DatabaseConnection(connection_string=(
+        "Driver={ODBC Driver 17 for SQL Server};"
+        "Server=localhost;"
+        "Database=Local;"
+        "Trusted_Connection=yes;"
+    ))
 
-    SQLServer = DatabaseConnection(f"Driver={{{driver}}};Server=localhost;Database=Local;Trusted_Connection=yes;")
-
-    print(SQLServer.fetch("SELECT TOP (1) * FROM SpotifyExtendedStreamingHistory"))
+    print(LOCAL_DB.query("SELECT TOP (1) * FROM SpotifyExtendedStreamingHistory"))
